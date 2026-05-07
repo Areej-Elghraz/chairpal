@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class GenerateCodeService
 {
-  public function otpCode(User $user, string $url)
+  public function otpCode(User $user)
   {
     $otpRecord  = DB::table('password_reset_tokens')->where('email', $user->email)->first();
     $expiration = config('auth.passwords.users.expire', 180); //seconds
@@ -32,7 +32,7 @@ class GenerateCodeService
       }
     }
 
-    $otp      = random_int(100000, 999999);
+    $otp      = random_int(1000, 9999);
     $newTimes = ($times ?? 0) + 1;
 
     DB::table('password_reset_tokens')->updateOrInsert(
@@ -41,12 +41,13 @@ class GenerateCodeService
         'token'      => Hash::make($otp),
         'created_at' => now(),
         'times'      => $newTimes,
+        'verified'   => false,
       ]
     );
 
-    $this->sendMail($user, $otp, $expiration, $maxTimes, $newTimes, $url);
+    $this->sendMail($user, $otp, $expiration, $maxTimes, $newTimes);
   }
-  public function verificationCode(User $user, string $url)
+  public function verificationCode(User $user)
   {
     $vCode      = $user->email_verification_code;
     $expiresAt  = $user->email_verification_code_expires_at;
@@ -68,7 +69,7 @@ class GenerateCodeService
       }
     }
 
-    $code     = random_int(100000, 999999);
+    $code     = random_int(1000, 9999);
     $newTimes = ($times ?: 0) + 1;
 
     $user->update([
@@ -77,10 +78,11 @@ class GenerateCodeService
       'email_verification_times_sent'      => $newTimes,
     ]);
 
-    $this->sendMail($user, $code, $expiration, $maxTimes, $newTimes, $url);
+    $this->sendMail($user, $code, $expiration, $maxTimes, $newTimes);
   }
-  public function sendMail(User $user, string $code, int $expiration, int $maxTimes, int $newTimes, string $url)
+  public function sendMail(User $user, string $code, int $expiration, int $maxTimes, int $newTimes) // string $url
   {
-    Mail::to($user->email)->send(new CodeMail($code, $expiration, $maxTimes, $maxTimes - $newTimes, $user->name, $url));
+    Mail::to($user->email)->send(new CodeMail($code, $expiration, $maxTimes, $maxTimes - $newTimes, $user->name));
+    // Mail::to($user->email)->send(new CodeMail($code, $expiration, $maxTimes, $maxTimes - $newTimes, $user->name, $url));
   }
 }

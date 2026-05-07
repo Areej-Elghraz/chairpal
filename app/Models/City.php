@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class City extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'country_id'
+    ];
+
+    protected $hidden = [
+        'country_id',
+    ];
+
+    protected $casts = ['country_id' => 'integer'];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('d M Y - h:i A');
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function organizations(): HasMany
+    {
+        return $this->hasMany(Organization::class);
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function places(): HasMany
+    {
+        return $this->hasMany(Place::class);
+    }
+}

@@ -1,0 +1,88 @@
+<?php
+return [
+
+  // Resources.
+  'resources' => [
+    'resource' => ['singular' => 'Tài nguyên', 'plural' => 'Tài nguyên', ],
+    'admin' => ['singular' => 'Quản trị viên', 'plural' => 'Quản trị viên', ],
+    'user' => ['singular' => 'Người dùng', 'plural' => 'Người dùng', ],
+    'banner' => ['singular' => 'Biểu ngữ', 'plural' => 'Biểu ngữ', ],
+    'category' => ['singular' => 'Danh mục', 'plural' => 'Danh mục', ],
+    'organization' => ['singular' => 'Tổ chức', 'plural' => 'Tổ chức', ],
+    'place' => ['singular' => 'Địa điểm', 'plural' => 'Địa điểm', ],
+    'phonenumber' => ['singular' => 'Số điện thoại', 'plural' => 'Số điện thoại', ],
+    'product' => ['singular' => 'Sản phẩm', 'plural' => 'Sản phẩm', ],
+    'productimage' => ['singular' => 'Hình ảnh', 'plural' => 'Hình ảnh', ],
+    'image' => ['singular' => 'Hình ảnh', 'plural' => 'Hình ảnh', ],
+    'all_images' => ['singular' => 'Tất cả hình ảnh', 'plural' => 'Tất cả hình ảnh', ],
+    'profile' => ['singular' => 'Dữ liệu hồ sơ', 'plural' => 'Dữ liệu hồ sơ', ],
+    'sociallink' => ['singular' => 'Liên kết xã hội', 'plural' => 'Liên kết xã hội', ],
+    'country' => ['singular' => 'Quốc gia', 'plural' => 'Quốc gia', ],
+    'city' => ['singular' => 'Thành phố', 'plural' => 'Thành phố', ],
+    'review' => ['singular' => 'Đánh giá', 'plural' => 'Đánh giá', ],
+    'like' => ['singular' => 'Thích', 'plural' => 'Lượt thích'],
+    'post' => ['singular' => 'Bài viết', 'plural' => 'Bài viết'],
+    'comment' => ['singular' => 'Bình luận', 'plural' => 'Bình luận'],
+    'language' => ['singular' => 'Ngôn ngữ', 'plural' => 'Ngôn ngữ'],
+    'visitor' => ['singular' => 'Lượt truy cập', 'plural' => 'Lượt truy cập', ],
+  ],
+
+  'actions' => [
+    'retrieved_success' => 'Đã lấy :resource thành công!',
+    'created_success' => 'Đã tạo :resource thành công!',
+    'updated_success' => 'Đã cập nhật :resource thành công!',
+    'deleted_success' => 'Đã xóa :resource thành công!',
+    'restored_success' => 'Đã khôi phục :resource thành công!',
+    'force_deleted_success' => 'Đã xóa vĩnh viễn :resource!',
+    'error' => 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại sau!',
+    'added_to_favorites' => 'Địa điểm đã được thêm vào mục yêu thích thành công!',
+    'removed_from_favorites' => 'Địa điểm đã được xóa khỏi mục yêu thích thành công!',
+    'created' => 'Tài nguyên đã được tạo thành công!',
+    'updated' => 'Tài nguyên đã được cập nhật thành công!',
+    'deleted' => 'Tài nguyên đã được xóa thành công!',
+  ],
+
+  // Error messages.
+  'invalid_credentials' => 'Thông tin đăng nhập không hợp lệ!',
+  'image_not_found_in_product' => 'Không tìm thấy hình ảnh trong sản phẩm này!',
+  'product_has_no_images' => 'Sản phẩm không có hình ảnh để xóa!',
+  'cannot_delete_position' => 'Bạn không thể xóa hình ảnh ":position", hãy thử thay thế nó!',
+  '404_not_found' => ':model không tìm thấy!',
+  'method_not_allowed' => 'Phương thức yêu cầu không được phép.',
+  'too_many_requests' => 'Quá nhiều yêu cầu. Vui lòng thử lại sau.',
+  'database_error' => 'Đã xảy ra lỗi khi xử lý cơ sở dữ liệu.',
+  'http_error' => 'Đã xảy ra lỗi khi xử lý yêu cầu.',
+  'internal_server_error' => 'Đã xảy ra lỗi máy chủ nội bộ. Vui lòng thử lại sau.',
+  'file_error' => 'Đã xảy ra lỗi khi xử lý tệp.',
+  'external_api_error' => 'Đã xảy ra lỗi khi giao tiếp với dịch vụ bên ngoài. Vui lòng thử lại sau.',
+  'invalid_json' => 'Dữ liệu JSON được cung cấp không hợp lệ.',
+  'max_reached' => 'Bạn đã đạt đến số lượng tối đa cho phép của :object (:max).',
+  'invalid_request' => 'Yêu cầu không hợp lệ.',
+  'exceptions' => [
+    'category_already_exists' => 'Danh mục đã tồn tại!',
+  ],
+
+  // Mail messages.
+  'mail' => [
+    'title' => 'Xác minh Email',
+    'greeting' => 'Xin chào',
+    'body' => 'Sử dụng Mật khẩu một lần (OTP) sau để xác minh email của bạn:',
+    'verify_button' => 'Xác minh tại đây',
+    'expire' => 'Mã này sẽ hết hạn sau <strong>:minutes phút</strong>.',
+    'remaining_times' => 'Bạn có thể gửi lại mã thêm :remain lần (trong số :max lần được phép).',
+    'ignore' => 'Nếu bạn không yêu cầu điều này, bạn có thể bỏ qua email này một cách an toàn.',
+    'footer' => 'Đã đăng ký Bản quyền.',
+    'verification_code' => 'Mã xác minh',
+  ],
+  'account_deleted' => 'Tài khoản đã được xóa thành công.',
+  'support_message_sent' => 'Tin nhắn của bạn đã được gửi thành công.',
+
+  // ChatBot and User actions.
+  'chat_session_created' => 'Phiên trò chuyện đã được tạo',
+  'unauthorized' => 'Không có quyền truy cập',
+  'chat_session_deleted' => 'Phiên trò chuyện đã được xóa thành công',
+  'message_media_required' => 'Cần có tin nhắn hoặc phương tiện',
+  'user_message_saved_bot_failed' => 'Tin nhắn người dùng đã được lưu, nhưng bot không thể phản hồi.',
+  'bot_service_unavailable' => 'Dịch vụ bot không khả dụng: ',
+  'reaction_updated' => 'Phản ứng đã được cập nhật',
+];

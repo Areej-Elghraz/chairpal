@@ -20,7 +20,8 @@ class VerifyOtpRequest extends FormRequest
     {
         return [ ///merge
             'email' => 'required|email|exists:users,email',
-            'otp' => 'required|string|size:6', ///otp
+            'otp' => 'required|string|size:4', ///otp
+            // 'email' => 'required|email|exists:users,email|exists:password_reset_tokens,email',
         ];
     }
 }

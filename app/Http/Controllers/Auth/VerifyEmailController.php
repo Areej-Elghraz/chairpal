@@ -10,36 +10,28 @@ use Illuminate\Validation\ValidationException;
 
 class VerifyEmailController extends ApiController
 {
-    public function __invoke(VerifyEmailRequest $request)
+    public function __invoke(VerifyEmailRequest $request, \App\Services\UserService $userService)
     {
         $user = User::where('email', $request->email)->firstOrFail();
 
         // Check if already verified
         if ($user->email_verified_at) {
-            return ValidationException::withMessages(['email' => __('auth.already_verified')]);
+            abort(409, __('auth.already_verified', ['attribute' => __('validation.attributes.email')]));
         }
 
         // Ensure verification code exists
         if (!$user->email_verification_code) {
-            return ValidationException::withMessages(['email' => __('auth.no_verification_code')]);
+            abort(422, __('auth.no_verification_code'));
         }
 
         // Calculate expiration
-        $expiresAt = $user->email_verification_code_expires_at;
-        if (!$expiresAt) {
-            return ValidationException::withMessages(['code' => __('auth.invalid_code')]);
-        }
-
-        $secondsPassed = now()->diffInSeconds($expiresAt, false); // false => negative if expired
-        $expiration    = config('auth.verification_codes.users.expire', 60);
-
-        if ($secondsPassed < 0) {
-            return ValidationException::withMessages(['code' => __('auth.code_expired')]); // 410 Gone
+        if (!$user->email_verification_code_expires_at || now()->gt($user->email_verification_code_expires_at)) {
+            abort(410, __('auth.code_expired'));
         }
 
         // Verify code
         if (!Hash::check($request->code, $user->email_verification_code)) {
-            return ValidationException::withMessages(['code' => __('auth.invalid_code')]);
+            throw ValidationException::withMessages(['code' => __('auth.invalid_code')]);
         }
 
         // Update user
@@ -50,6 +42,8 @@ class VerifyEmailController extends ApiController
             'email_verification_times_sent' => 0,
         ])->save();
 
-        return $this->successResponse(__('auth.email_verified_successfully'));
+        $userService->clearUserCache($user);
+
+        return $this->successResponse(__('auth.verified_successfully', ['attribute' => __('validation.attributes.email')]), 200);
     }
 }

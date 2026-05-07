@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
-abstract class ApiController
+abstract class ApiController extends Controller
 {
+    use AuthorizesRequests, ValidatesRequests;
     protected function resource(string $key)
     {
         return __('messages.resources.' . $key . '.singular');

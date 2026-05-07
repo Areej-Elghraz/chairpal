@@ -29,7 +29,7 @@ return [
     'invalid_scope'              => 'You do not have the required scope to access this resource.',
 
     // Success messages.
-    'register_success'        => 'Welcome to ChairPal! Please verify your email with the code we’ve sent to you.',
+    'register_success'        => 'Welcome to ChairPal! Please check your email to verify your account.',
     'login_success'           => 'Logged in successfully.',
     'logout_success'          => 'You have been logged out successfully.',
     'password_reset_success'  => 'Your password has been reset successfully.',
@@ -38,13 +38,13 @@ return [
     'token_generated_success' => 'Access token generated successfully.',
 
     // verification
-    'already_verified'            => 'Your email is already verified — no need to do it again!',
-    'no_verification_code'        => 'We couldn’t find a verification code. Try requesting a new one.',
-    'invalid_code'                => 'Oops! That code doesn’t seem right. Please check and try again.',
-    'code_expired'                => 'That code has expired. Let’s send you a new one!',
-    'unauthorized_code'           => 'Sorry, you’re not allowed to verify this code.',
-    'email_verified_successfully' => 'Awesome! Your email has been verified successfully.',
-    'verification_code_resent'    => 'Verification code has been resent successfully.',
+    'already_verified'         => 'Your :attribute is already verified — no need to do it again!',
+    'no_verification_code'     => 'We couldn’t find a verification code. Try requesting a new one.',
+    'invalid_code'             => 'Oops! That code doesn’t seem right. Please check and try again.',
+    'code_expired'             => 'That code has expired. Try requesting another one!',
+    'unauthorized_code'        => 'Sorry, you’re not allowed to verify this code.',
+    'verified_successfully'    => 'Awesome! Your :attribute has been verified successfully.',
+    'verification_code_resent' => ':attribute has been resent successfully.',
 
     // Error messages.accordion  
     'expired'            => ':attribute expired. resend :attribute and try again!',

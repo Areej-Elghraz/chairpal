@@ -1,0 +1,88 @@
+<?php
+return [
+
+  // Resources.
+  'resources' => [
+    'resource'     => ['singular' => 'المورد',               'plural'  => 'الموارد'],
+    'admin'        => ['singular' => 'المسؤول',              'plural'  => 'المسؤولين'],
+    'user'         => ['singular' => 'المستخدم',             'plural'  => 'المستخدمين'],
+    'banner'       => ['singular' => 'اللافتة',               'plural'  => 'اللافتات'],
+    'category'     => ['singular' => 'التصنيف',              'plural'  => 'التصنيفات'],
+    'organization' => ['singular' => 'المنظمة',               'plural'  => 'المنظمات'],
+    'place'        => ['singular' => 'المكان',                'plural'  => 'الأماكن'],
+    'phonenumber'  => ['singular' => 'رقم الهاتف',           'plural'  => 'أرقام الهواتف'],
+    'product'      => ['singular' => 'المنتج',               'plural'  => 'المنتجات'],
+    'productimage' => ['singular' => 'الصورة',               'plural'  => 'الصور'],
+    'image'        => ['singular' => 'الصورة',               'plural'  => 'الصور'],
+    'all_images'   => ['singular' => 'كل الصور',             'plural'  => 'كل الصور'],
+    'profile'      => ['singular' => 'بيانات الملف الشخصي', 'plural'  => 'بيانات الملفات الشخصية'],
+    'sociallink'   => ['singular' => 'الرابط الاجتماعي',     'plural'  => 'الروابط الاجتماعية'],
+    'country'      => ['singular' => 'الدولة',               'plural'  => 'الدول'],
+    'city'         => ['singular' => 'المدينة',              'plural'  => 'المدن'],
+    'review'       => ['singular' => 'التقييم',              'plural'  => 'التقييمات'],
+        'like'         => ['singular' => 'إعجاب', 'plural'  => 'إعجابات'],
+    'post'         => ['singular' => 'المنشور', 'plural'  => 'المنشورات'],
+    'comment'      => ['singular' => 'التعليق', 'plural'  => 'التعليقات'],
+    'language'     => ['singular' => 'اللغة', 'plural'  => 'اللغات'],
+    'visitor'      => ['singular' => 'الزيارة',               'plural'  => 'الزيارات'],
+  ],
+
+  'actions' => [
+    'retrieved_success'     => 'تم جلب :resource بنجاح!',
+    'created_success'       => 'تم إنشاء :resource بنجاح!',
+    'updated_success'       => 'تم تحديث :resource بنجاح!',
+    'deleted_success'       => 'تم حذف :resource بنجاح!',
+    'restored_success'      => 'تم استرجاع :resource بنجاح!',
+    'force_deleted_success' => 'تم حذف :resource نهائيًا!',
+    'error'                 => 'حدث خطأ أثناء تنفيذ العملية، برجاء المحاولة مرة أخرى لاحقاً.',
+    'added_to_favorites'    => 'تمت إضافة المكان إلى المفضلة بنجاح!',
+    'removed_from_favorites'=> 'تمت إزالة المكان من المفضلة بنجاح!',
+    'created'               => 'تم إنشاء المورد بنجاح!',
+    'updated'               => 'تم تحديث المورد بنجاح!',
+    'deleted'               => 'تم حذف المورد بنجاح!',
+  ],
+
+  // Error messages.
+  'invalid_credentials'        => 'بيانات الدخول غير صحيحة!',
+  'image_not_found_in_product' => 'الصورة غير موجودة في هذا المنتج!',
+  'product_has_no_images'      => 'المنتج لا يحتوي على صور للحذف!',
+  'cannot_delete_position'     => 'لا يمكنك حذف صورة الموضع ":attribute"، جرب استبدالها!',
+  '404_not_found'              => ':model غير موجود!',
+  'method_not_allowed'         => 'طريقة الطلب غير مسموح بها.',
+  'too_many_requests'          => 'تم إرسال عدد كبير جدًا من الطلبات. يرجى المحاولة لاحقًا.',
+  'database_error'             => 'حدث خطأ أثناء التعامل مع قاعدة البيانات.',
+  'http_error'                 => 'حدث خطأ أثناء تنفيذ الطلب.',
+  'internal_server_error'      => 'حدث خطأ داخلي في الخادم. يرجى المحاولة لاحقًا.',
+  'file_error'                 => 'حدث خطأ أثناء التعامل مع الملف.',
+  'external_api_error'         => 'حدث خطأ أثناء الاتصال بخدمة خارجية. يرجى المحاولة لاحقًا.',
+  'invalid_json'               => 'تنسيق البيانات المرسلة غير صحيح.',
+  'max_reached'                => 'لقد وصلتِ إلى الحد الأقصى لعدد :object المسموح بها (العدد: :max).',
+  'invalid_request'            => 'طلب غير صالح.',
+  'exceptions'                 => [
+    'category_already_exists' => 'التصنيف موجود بالفعل!',
+  ],
+
+  // Mail messages.
+  'mail' => [
+    'title'             => 'تأكيد البريد الإلكتروني',
+    'greeting'          => 'مرحباً',
+    'body'              => 'استخدم رمز التحقق لمرة واحدة لتأكيد بريدك الإلكتروني:',
+    'verify_button'     => 'التأكيد من هنا!',
+    'expire'            => 'سينتهي صلاحية هذا الرمز خلال <strong>:minutes دقيقة</strong>.',
+    'remaining_times'   => 'يمكنك إعادة إرسال الكود :remain مرة أخرى (من أصل :max محاولات مسموحة).',
+    'ignore'            => 'إذا لم تطلب هذا، يمكنك تجاهل هذه الرسالة بأمان.',
+    'footer'            => 'جميع الحقوق محفوظة.',
+    'verification_code' => 'رمز التحقق',
+  ],
+  'account_deleted' => 'تم حذف الحساب بنجاح.',
+  'support_message_sent' => 'تم إرسال رسالتك بنجاح.',
+
+  // ChatBot and User actions.
+  'chat_session_created' => 'تم إنشاء جلسة الدردشة',
+  'unauthorized' => 'غير مصرح',
+  'chat_session_deleted' => 'تم حذف جلسة الدردشة بنجاح',
+  'message_media_required' => 'الرسالة أو الوسائط مطلوبة',
+  'user_message_saved_bot_failed' => 'تم حفظ رسالة المستخدم، لكن فشل الروبوت في الرد.',
+  'bot_service_unavailable' => 'خدمة الروبوت غير متاحة: ',
+  'reaction_updated' => 'تم تحديث التفاعل',
+];

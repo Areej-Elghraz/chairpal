@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\DeviceTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class LogoutRequest extends FormRequest
 {
@@ -20,6 +22,10 @@ class LogoutRequest extends FormRequest
     {
         return [
             'all_devices' => 'nullable|boolean',
+            'device'      => 'nullable|array',
+            'device.id'   => 'nullable|string',
+            'device.name' => 'nullable|string',
+            'device.type' => ['nullable', new Enum(DeviceTypeEnum::class)], // add DeviceTypeEnum
         ];
     }
 }

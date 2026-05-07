@@ -50,14 +50,14 @@ We’re glad to have you on board 💙
                     </span>
                   </td>
                 </tr>
-                <tr>
+                {{-- <tr>
                   <td align="center" bgcolor="#f8f4e1" style="padding:10px;">
                     <a href="{{ $url }}" 
                        style="background-color:#74512d; color:#f8f4e1; padding:12px 25px; border-radius:8px; text-decoration:none; font-size:18px; font-weight:bold; letter-spacing:2px; display:inline-block;">
                        {{__('messages.mail.verify_button')}}
                     </a>
                   </td>
-                </tr>
+                </tr> --}}
               </table>
 
               <p>{!! __('messages.mail.expire', ['minutes' => $minutes]) !!}</p>

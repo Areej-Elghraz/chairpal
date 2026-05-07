@@ -50,10 +50,10 @@ return [
   'external_api_error'         => 'An error occurred while communicating with an external service. Please try again later.',
   'invalid_json'               => 'The provided JSON data is invalid.',
   'max_reached'                => 'You have reached the maximum allowed number of :object (:max).',
-  // 'otp_expired'                => 'OTP expired. resend OTP and try again!',
-  // 'already_otp_resent'         => 'OTP already sent to your email!',
-  // 'wait_before_resend'         => 'Please wait :remain_seconds second(s) before resending the code.',
-  // 'must_verify_otp_first'      => 'You must verify your OTP before resetting your password.',
+  'otp_expired'                => 'OTP expired. resend OTP and try again!',
+  'already_otp_resent'         => 'OTP already sent to your email!',
+  'wait_before_resend'         => 'Please wait :remain_seconds second(s) before resending the code.',
+  'must_verify_otp_first'      => 'You must verify your OTP before resetting your password.',
 
   // Mail messages.
   'mail' => [

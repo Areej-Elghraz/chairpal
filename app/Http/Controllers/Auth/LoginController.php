@@ -4,34 +4,42 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\User;
 use App\Services\GenerateTokensService;
-use Illuminate\Support\Facades\Hash;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends ApiController
 {
-    public function __invoke(LoginRequest $request, GenerateTokensService $generateTokensService)
+    public function __invoke(LoginRequest $request, GenerateTokensService $generateTokensService, UserService $userService)
     {
-        $user = User::firstWhere('email', $request->email);
-        // if (!$user) {
-        //     // return $this->errorResponse(message: __('validation.invalid_value', ['attribute' => 'email']));
-        //     throw ValidationException::withMessages(['email' => __('validation.invalid_value', ['attribute' => 'email'])]);
-        // }
-        if (! Hash::check($request->password, $user->password)) {
-            // return $this->errorResponse(message: __('validation.invalid_value', ['attribute' => 'password']));
-            throw ValidationException::withMessages(['password' => __('validation.invalid_value', ['attribute' => 'password'])]);
-        }
-        if (!$user->email_verified_at) { ///middleware
-            // return $this->errorResponse(message: __('auth.email_not_verified'));
-            throw ValidationException::withMessages(['email' => __('auth.email_not_verified')]);
-            // throw new \Exception(__('auth.email_not_verified'));
+        // $deviceRequest = $request->input('device');
+
+        $user = $userService->getUserByEmail($request->email);
+
+        if (!$user) {
+            throw ValidationException::withMessages(['email' => __('auth.failed')]);
         }
 
-        $tokens = $generateTokensService($user, $request->header('User-Agent'), $request->remember ?? false);
+        if (!$user->email_verified_at) { ///middleware
+            throw ValidationException::withMessages(['email' => __('auth.email_not_verified')]);
+        }
+
+        // dd(Auth::attempt($request->only('email', 'password')));
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return $this->errorResponse(
+                __('auth.failed'),
+                401,
+            );
+        }
+
+        // dd(auth('sanctum')->user());
+        $user   = auth('sanctum')->user();
+        $tokens = $generateTokensService($user, $request->remember ?? false);
 
         return $this->successResponse(message: __('auth.login_success'), parameters: [
-            'data'                      => $user,
+            'user'                      => $user,
             'access_token'              => $tokens['access_token'],
             'access_token_expires_in'   => $tokens['access_token_expiration'],
             'remember_token'            => $tokens['remember_token'],

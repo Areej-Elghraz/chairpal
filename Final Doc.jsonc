@@ -1,0 +1,145 @@
+//Authentication
+[
+// register
+{
+  "message": "Welcome to ChairPal! Please check your email to verify your account.",
+  "data": []
+},
+
+// resend-verification-code
+{
+  "message": "Code has been resent successfully.",
+  "data": []
+},
+
+// verify-email
+{
+  "message": "Awesome! Your Email has been verified successfully.",
+  "data": []
+},
+
+// forget-password
+{
+  "message": "The Verification code (OTP) has been sent to your email.",
+  "data": []
+},
+
+// resend-otp
+{
+  "message": "Verification code (OTP) has been resent successfully.",
+  "data": []
+},
+
+// reset-password
+{
+  "message": "Your password has been reset successfully.",
+  "data": []
+},
+
+// verify-otp
+{
+  "message": "Awesome! Your Verification code (OTP) has been verified successfully.",
+  "data": []
+},
+
+// login
+{
+  "message": "Logged in successfully.",
+  "data": {
+    "data": {
+      "id": 1,
+      "name": "user",
+      "email": "areejelghrazzz@gmail.com",
+      "email_verification_code": null,
+      "email_verification_times_sent": 0,
+      "email_verification_code_expires_at": null,
+      "email_verified_at": "2026-02-03T11:00:08.000000Z",
+      "provider_id": null,
+      "provider_name": null,
+      "role": "user",
+      "phone": "+201087736789",
+      "age": 30,
+      "follow_doctor": 1,
+      "location": null,
+      "image": null,
+      "created_at": "2026-02-03T10:41:08.000000Z",
+      "updated_at": "2026-02-03T11:00:08.000000Z"
+    },
+    "access_token": "1|EaTbH8vohRBvaGm8Rf5eDikdqxdpTFnMZubvcjUJa1ceebf5",
+    "access_token_expires_in": 7200,
+    "remember_token": "2|IczldfW6oTRA74oGfVBty4hxJ0WWlnrQzLzVJPe8a6c90054",
+    "remember_token_expires_in": 1209600
+  }
+},  
+
+// logout
+{
+  "message": "You have been logged out successfully.",
+  "data": []
+},
+
+// refresh token
+{
+  "message": "messages.token_generated",
+  "data": {
+    "access_token": "27|IqE68hln4Af2rzRAZ3W7Eawwwfu2oaTVOUlX1tlLe0ee4b66",
+    "access_token_expires_in": 7200,
+    "remember_token": "28|wPjBzfP5FYiV0ly1tJDSgBvbn23xRcPyFqW3igOa5dd006a1",
+    "remember_token_expires_in": 1209600
+  }
+},
+
+// profile -> update
+{
+    "message": "Your profile data updated successfully.",
+    "data": []
+},
+
+// profile -> change password
+{
+    "message": "Your password has been changed successfully.",
+    "data": []
+},
+
+// Validation Error
+{
+  "message": "Your Verification code (OTP) is already verified — no need to do it again!",
+  "errors": {
+    "otp": [
+      "Your Verification code (OTP) is already verified — no need to do it again!"
+    ]
+  }
+},
+
+// chatbot -> create session
+{
+  "message": "Chat session created",
+  "data": {
+    "title": "New Chat",
+    "user_id": 1,
+    "updated_at": "2026-04-22T02:50:33.000000Z",
+    "created_at": "2026-04-22T02:50:33.000000Z",
+    "id": 1
+  }
+},
+
+// chatbot -> chat
+{
+  "user_message": {
+    "sender_type": "user",
+    "content": "Hello",
+    "session_id": 1,
+    "updated_at": "2026-04-22T02:50:40.000000Z",
+    "created_at": "2026-04-22T02:50:40.000000Z",
+    "id": 1
+  },
+  "bot_message": {
+    "sender_type": "bot",
+    "content": "Hi there! How can I help you today?",
+    "session_id": 1,
+    "updated_at": "2026-04-22T02:50:43.000000Z",
+    "created_at": "2026-04-22T02:50:43.000000Z",
+    "id": 2
+  }
+}
+]

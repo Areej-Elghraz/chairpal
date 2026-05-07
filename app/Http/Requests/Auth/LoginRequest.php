@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\DeviceTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class LoginRequest extends FormRequest
 {
@@ -19,9 +21,13 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|email|exists:users,email',
-            'password' => 'required|string|min:6',
-            'remember' => 'required|boolean',
+            'email'       => 'required|email|exists:users,email',
+            'password'    => 'required|string|min:6',
+            'remember'    => 'sometimes|boolean',
+            // 'device'      => 'required|array',
+            // 'device.id'   => 'required|string',
+            // 'device.name' => 'required|string',
+            // 'device.os' => ['required', new Enum(DeviceTypeEnum::class)], // add DeviceTypeEnum
         ];
     }
 }

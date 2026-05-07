@@ -1,0 +1,246 @@
+<?php
+
+namespace App\Http\Controllers\ChatBot;
+
+use App\Http\Controllers\ApiController;
+use App\Models\ChatMessage;
+use App\Models\ChatSession;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
+
+class MessageController extends ApiController
+{
+    public function index(Request $request)
+    {
+        $userId = $request->user()->id;
+        $cacheKey = "chat_sessions_user_{$userId}";
+        $sessions = Cache::tags(["chat_sessions", $cacheKey])->remember($cacheKey, 3600, function () use ($request) {
+            return $request->user()->chatSessions()->latest()->get();
+        });
+        return response()->json(['data' => $sessions]);
+    }
+
+    public function storeSession(Request $request)
+    {
+        $request->validate([
+            'title' => 'nullable|string|max:255',
+        ]);
+
+        $session = $request->user()->chatSessions()->create([
+            'title' => $request->input('title', 'New Chat'),
+        ]);
+
+        Cache::tags(["chat_sessions", "chat_sessions_user_{$request->user()->id}"])->flush();
+
+        return response()->json(['message' => __('messages.chat_session_created'), 'data' => $session], 201);
+    }
+
+    public function showSession(Request $request, ChatSession $session)
+    {
+        if ($session->user_id !== $request->user()->id) {
+            throw new \Exception(__('messages.unauthorized'), 403);
+        }
+
+        $session->load('messages');
+        return response()->json(['data' => $session]);
+    }
+
+    public function destroySession(Request $request, ChatSession $session)
+    {
+        if ($session->user_id !== $request->user()->id) {
+            throw new \Exception(__('messages.unauthorized'), 403);
+        }
+
+        $session->delete();
+        Cache::tags(["chat_sessions", "chat_sessions_user_{$request->user()->id}"])->flush();
+        return response()->json(['message' => __('messages.chat_session_deleted')]);
+    }
+
+    public function chat(Request $request, ChatSession $session)
+    {
+        if ($session->user_id !== $request->user()->id) {
+            throw new \Exception(__('messages.unauthorized'), 403);
+        }
+
+        $request->validate([
+            'message' => 'nullable|string',
+            'media' => 'nullable|array',
+            'media.*' => 'file|mimes:jpeg,png,jpg,gif,mp3,wav|max:10240',
+        ]);
+
+        $content = $request->input('message');
+        $mediaFiles = $request->file('media');
+
+        // if (!$content && empty($mediaFiles)) {
+        //     return response()->json(['error' => __('messages.message_media_required')], 400);
+        // }
+
+        if (!$content) {
+            throw new \Exception(__('messages.message_media_required'), 400);
+        }
+
+        $attachments = [];
+
+        if (!empty($mediaFiles)) {
+            foreach ($mediaFiles as $mediaFile) {
+                $mediaPath = $mediaFile->store('chat_media', 'public');
+                $mimeType = $mediaFile->getClientMimeType();
+                $type = 'file';
+
+                if (str_starts_with($mimeType, 'image/')) {
+                    $type = 'image';
+                } elseif (str_starts_with($mimeType, 'audio/')) {
+                    $type = 'audio';
+                }
+
+                $attachments[] = [
+                    'path' => $mediaPath,
+                    'type' => $type,
+                    'mime_type' => $mimeType,
+                ];
+            }
+        }
+        // dd($content);
+
+        // 1. Save user's message
+        $userMessage = $session->messages()->create([
+            'sender_type' => 'user',
+            'content' => $content,
+            'attachments' => !empty($attachments) ? $attachments : null,
+        ]);
+
+        // 2. Call the HF space bot API
+        $textToSend = $content ?? 'User sent attachment(s).';
+        $systemMessage = $request->input('system_message', "You are a friendly Chatbot.");
+        $maxTokens = $request->input('max_tokens', 512);
+        $temperature = $request->input('temperature', 0.7);
+        $topP = $request->input('top_p', 0.95);
+
+        try {
+            $postResponse = Http::timeout(30)->post('https://sarasalem-me-app.hf.space/gradio_api/call/chat', [
+                'data' => [
+                    (string) $textToSend,
+                    (string) $systemMessage,
+                    (int) $maxTokens,
+                    (float) $temperature,
+                    (float) $topP,
+                ],
+            ]);
+
+            if ($postResponse->failed()) {
+                throw new \Exception("Failed to initiate chat (POST).");
+            }
+
+            $eventId = $postResponse->json('event_id');
+
+            if (!$eventId) {
+                throw new \Exception("Did not receive Event ID from Hugging Face.");
+            }
+
+            // الخطوة 2: عمل GET للحصول على النتيجة النهائية
+            // ملاحظة: الرد بيرجع كـ Stream، فهنقرأه كـ نص وننظفه
+            $getResult = Http::timeout(60)->get("https://sarasalem-me-app.hf.space/gradio_api/call/chat/$eventId");
+
+            if ($getResult->failed()) {
+                throw new \Exception("Failed to fetch bot response (GET).");
+            }
+
+            $rawResponse = $getResult->body();
+
+            // تنظيف الرد: Gradio بيرجع بيانات فيها كلمة "data:" و "event: complete"
+            // هنستخدم Regex عشان نطلع النص اللي إحنا عايزينه بس
+            // بنحاول نلاقي أول صف فيه بيانات الرد
+            $lines = explode("\n", $rawResponse);
+            $finalText = "";
+
+            foreach ($lines as $line) {
+                if (str_starts_with($line, 'data: ')) {
+                    $dataJson = substr($line, 6); // نشيل كلمة "data: "
+                    $dataArray = json_decode($dataJson, true);
+
+                    // الـ Gradio 4 بيرجع النتيجة في Array
+                    if (is_array($dataArray) && isset($dataArray[0])) {
+                        $finalText = $dataArray[0];
+                        break; // خدنا أول رد كامل
+                    }
+                }
+            }
+
+            // معالجة الـ ASS Tags لو لسه موجودة
+            preg_match('/\[ASS\](.*?)\[\/ASS\]/s', $finalText, $matches);
+            $botFinalResponse = isset($matches[1]) ? trim($matches[1]) : trim($finalText ?: $rawResponse);
+
+            // 3. حفظ رد البوت في قاعدة البيانات
+            $botMessage = $session->messages()->create([
+                'sender_type' => 'bot',
+                'content' => $botFinalResponse,
+            ]);
+
+            return response()->json([
+                'user_message' => $userMessage,
+                'bot_message' => $botMessage
+            ]);
+
+        } catch (\Exception $e) {
+            throw new \Exception(__('messages.bot_service_unavailable') . " " . $e->getMessage(), 500);
+        }
+        // try {
+        //     $response = Http::post('https://sarasalem-me-app.hf.space/api/predict', [
+        //         'data' => [
+        //             $textToSend,
+        //             $systemMessage,
+        //             $maxTokens,
+        //             $temperature,
+        //             $topP,
+        //         ],
+        //         'fn_index' => 0,
+        //     ]);
+
+        //     if ($response->failed()) {
+        //         // Return user message but state bot failed
+        //         throw new \Exception(__('messages.user_message_saved_bot_failed'), 500);
+        //     }
+
+        //     $rawResponse = $response->json('data')[0] ?? '';
+        //     preg_match('/\[ASS\](.*?)\[\/ASS\]/s', $rawResponse, $matches);
+        //     $finalResponse = isset($matches[1]) ? trim($matches[1]) : trim($rawResponse);
+
+        //     // dd($finalResponse);
+
+        //     // 3. Save the bot's response
+        //     $botMessage = $session->messages()->create([
+        //         'sender_type' => 'bot',
+        //         'content' => $finalResponse,
+        //     ]);
+
+        //     return response()->json([
+        //         'user_message' => $userMessage,
+        //         'bot_message' => $botMessage
+        //     ]);
+
+        // } catch (\Exception $e) {
+        //     throw new \Exception(__('messages.bot_service_unavailable') . $e->getMessage(), 500);
+        // }
+    }
+
+    public function reactToMessage(Request $request, ChatMessage $message)
+    {
+        $request->validate([
+            'reaction' => 'nullable|in:like,dislike',
+        ]);
+
+        // Ensure the message belongs to a session owned by the authenticated user
+        if ($message->session->user_id !== $request->user()->id) {
+            throw new \Exception(__('messages.unauthorized'), 403);
+        }
+
+        // Usually users react to bot messages, but let's allow it for any message in their session
+        $message->update([
+            'reaction' => $request->input('reaction')
+        ]);
+
+        return response()->json(['message' => __('messages.reaction_updated'), 'data' => $message]);
+    }
+}

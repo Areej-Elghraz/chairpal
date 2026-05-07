@@ -20,7 +20,7 @@ class VerifyEmailRequest extends FormRequest
     {
         return [ ///merge
             'email' => 'required|email|exists:users,email',
-            'code'  => 'required|string|size:6',
+            'code'  => 'required|string|size:4',
         ];
     }
 }

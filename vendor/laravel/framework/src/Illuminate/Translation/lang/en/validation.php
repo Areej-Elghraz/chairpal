@@ -209,7 +209,7 @@ return [
         'password' => 'Password',
 
         'code' => 'Code',
-        'otp' => 'Verification code',
+        'otp' => 'Verification code (OTP)',
         'current_password' => 'Current password',
         'new_password' => 'New password',
 

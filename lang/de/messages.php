@@ -1,0 +1,88 @@
+<?php
+return [
+
+  // Resources.
+  'resources' => [
+    'resource'     => ['singular' => 'Ressource',     'plural' => 'Ressourcen',],
+    'admin'        => ['singular' => 'Admin',         'plural' => 'Admins',],
+    'user'         => ['singular' => 'Benutzer',      'plural' => 'Benutzer',],
+    'banner'       => ['singular' => 'Banner',        'plural' => 'Banner',],
+    'category'     => ['singular' => 'Kategorie',     'plural' => 'Kategorien',],
+    'organization' => ['singular' => 'Organisation',  'plural' => 'Organisationen',],
+    'place'        => ['singular' => 'Ort',           'plural' => 'Orte',],
+    'phonenumber'  => ['singular' => 'Telefonnummer', 'plural' => 'Telefonnummern',],
+    'product'      => ['singular' => 'Produkt',       'plural' => 'Produkte',],
+    'productimage' => ['singular' => 'Bild',          'plural' => 'Bilder',],
+    'image'        => ['singular' => 'Bild',          'plural' => 'Bilder',],
+    'all_images'   => ['singular' => 'Alle Bilder',   'plural' => 'Alle Bilder',],
+    'profile'      => ['singular' => 'Profildaten',   'plural' => 'Profildaten',],
+    'sociallink'   => ['singular' => 'Sozialer Link', 'plural' => 'Soziale Links',],
+    'country'      => ['singular' => 'Land',          'plural' => 'Länder',],
+    'city'         => ['singular' => 'Stadt',         'plural' => 'Städte',],
+    'review'       => ['singular' => 'Bewertung',     'plural' => 'Bewertungen',],
+        'like'         => ['singular' => 'Gefällt mir', 'plural'  => 'Gefällt mir'],
+    'post'         => ['singular' => 'Beitrag', 'plural'  => 'Beiträge'],
+    'comment'      => ['singular' => 'Kommentar', 'plural'  => 'Kommentare'],
+    'language'     => ['singular' => 'Sprache', 'plural'  => 'Sprachen'],
+    'visitor'      => ['singular' => 'Besuch',        'plural' => 'Besuche',],
+  ],
+
+  'actions' => [
+    'retrieved_success'     => ':resource erfolgreich abgerufen!',
+    'created_success'       => ':resource erfolgreich erstellt!',
+    'updated_success'       => ':resource erfolgreich aktualisiert!',
+    'deleted_success'       => ':resource erfolgreich gelöscht!',
+    'restored_success'      => ':resource erfolgreich wiederhergestellt!',
+    'force_deleted_success' => ':resource dauerhaft gelöscht!',
+    'error'                 => 'Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut!',
+    'added_to_favorites'    => 'Ort erfolgreich zu Favoriten hinzugefügt!',
+    'removed_from_favorites'=> 'Ort erfolgreich aus Favoriten entfernt!',
+    'created'               => 'Ressource erfolgreich erstellt!',
+    'updated'               => 'Ressource erfolgreich aktualisiert!',
+    'deleted'               => 'Ressource erfolgreich gelöscht!',
+  ],
+
+  // Error messages.
+  'invalid_credentials'        => 'Ungültige Anmeldeinformationen!',
+  'image_not_found_in_product' => 'Bild in diesem Produkt nicht gefunden!',
+  'product_has_no_images'      => 'Produkt hat keine Bilder zum Löschen!',
+  'cannot_delete_position'     => 'Sie können das Bild ":position" nicht löschen, versuchen Sie es zu ersetzen!',
+  '404_not_found'              => ':model nicht gefunden!',
+  'method_not_allowed'         => 'Die Anfragemethode ist nicht zulässig.',
+  'too_many_requests'          => 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.',
+  'database_error'             => 'Ein Fehler ist bei der Verarbeitung der Datenbank aufgetreten.',
+  'http_error'                 => 'Ein Fehler ist bei der Verarbeitung der Anfrage aufgetreten.',
+  'internal_server_error'      => 'Ein interner Serverfehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+  'file_error'                 => 'Ein Fehler ist bei der Verarbeitung der Datei aufgetreten.',
+  'external_api_error'         => 'Ein Fehler ist bei der Kommunikation mit einem externen Dienst aufgetreten. Bitte versuchen Sie es später erneut.',
+  'invalid_json'               => 'Die bereitgestellten JSON-Daten sind ungültig.',
+  'max_reached'                => 'Sie haben die maximal zulässige Anzahl von :object erreicht (:max).',
+  'invalid_request'            => 'Ungültige Anfrage.',
+  'exceptions'                 => [
+    'category_already_exists' => 'Kategorie existiert bereits!',
+  ],
+
+  // Mail messages.
+  'mail' => [
+    'title'             => 'E-Mail-Verifizierung',
+    'greeting'          => 'Hallo',
+    'body'              => 'Verwenden Sie das folgende Einmal-Passwort (OTP), um Ihre E-Mail zu verifizieren:',
+    'verify_button'     => 'Hier verifizieren',
+    'expire'            => 'Dieser Code läuft in <strong>:minutes Minuten</strong> ab.',
+    'remaining_times'   => 'Sie können den Code noch :remain Mal erneut senden (von :max erlaubten).',
+    'ignore'            => 'Wenn Sie dies nicht angefordert haben, können Sie diese E-Mail sicher ignorieren.',
+    'footer'            => 'Alle Rechte vorbehalten.',
+    'verification_code' => 'Verifizierungs-Code',
+  ],
+  'account_deleted' => 'Konto erfolgreich gelöscht.',
+  'support_message_sent' => 'Ihre Nachricht wurde erfolgreich gesendet.',
+
+  // ChatBot and User actions.
+  'chat_session_created' => 'Chat-Sitzung erstellt',
+  'unauthorized' => 'Unbefugt',
+  'chat_session_deleted' => 'Chat-Sitzung erfolgreich gelöscht',
+  'message_media_required' => 'Nachricht oder Medien sind erforderlich',
+  'user_message_saved_bot_failed' => 'Benutzernachricht gespeichert, aber Bot konnte nicht antworten.',
+  'bot_service_unavailable' => 'Bot-Service nicht verfügbar: ',
+  'reaction_updated' => 'Reaktion aktualisiert',
+];

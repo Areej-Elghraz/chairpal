@@ -16,8 +16,8 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
-        // $user = auth('sanctum')->user();
+        // $user = $request->user();
+        $user = auth('sanctum')->user();
         if ($user && $user->email_verified_at) {
             return $next($request);
         }

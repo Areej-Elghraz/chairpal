@@ -19,23 +19,23 @@ class VerifyOtpController extends ApiController
             ->where('email', $user->email)
             ->first();
 
-        if (!$user) {
-            throw ValidationException::withMessages(['email' => __('validation.invalid_value', ['attribute' => __('validation.attributes.email')])]);
-        }
-
         if (!$otpRecord) {
-            throw ValidationException::withMessages(['otp' => __('validation.invalid_value', ['attribute' => __('validation.attributes.otp')])]);
+            abort(404, __('validation.invalid_value', ['attribute' => __('validation.attributes.otp')]));
         }
 
-        if ($otpRecord) {
-            $createdAt    = \Carbon\Carbon::parse($otpRecord->created_at);
-            $minutesSince = $createdAt->diffInMinutes(now());
-            if ($minutesSince >= $expiration) {
-                throw ValidationException::withMessages(['otp' => __('messages.otp_expired')]);
-            }
-            if (!Hash::check($request->otp, $otpRecord->token)) {
-                throw ValidationException::withMessages(['otp' => __('validation.invalid_value', ['attribute' => __('validation.attributes.otp')])]);
-            }
+        if ($otpRecord->verified) {
+            abort(409, __('auth.already_verified', ['attribute' => __('validation.attributes.otp')]));
+        }
+
+        $createdAt    = \Carbon\Carbon::parse($otpRecord->created_at);
+        $minutesSince = $createdAt->diffInMinutes(now());
+        
+        if ($minutesSince >= $expiration) {
+            abort(410, __('auth.code_expired'));
+        }
+
+        if (!Hash::check($request->otp, $otpRecord->token)) {
+            throw ValidationException::withMessages(['otp' => __('validation.invalid_value', ['attribute' => __('validation.attributes.otp')])]);
         }
 
         DB::table('password_reset_tokens')
@@ -43,7 +43,8 @@ class VerifyOtpController extends ApiController
             ->update([
                 'verified' => true,
             ]);
+        // ->delete();
 
-        return $this->successResponse(__('messages.otp_verified'));
+        return $this->successResponse(__('auth.verified_successfully', ['attribute' => __('validation.attributes.otp')]));
     }
 }

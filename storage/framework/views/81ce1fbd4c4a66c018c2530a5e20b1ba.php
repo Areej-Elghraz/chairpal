@@ -39,15 +39,7 @@
                     </span>
                   </td>
                 </tr>
-                <tr>
-                  <td align="center" bgcolor="#f8f4e1" style="padding:10px;">
-                    <a href="<?php echo new \Illuminate\Support\EncodedHtmlString($url); ?>" 
-                       style="background-color:#74512d; color:#f8f4e1; padding:12px 25px; border-radius:8px; text-decoration:none; font-size:18px; font-weight:bold; letter-spacing:2px; display:inline-block;">
-                       <?php echo new \Illuminate\Support\EncodedHtmlString(__('messages.mail.verify_button')); ?>
-
-                    </a>
-                  </td>
-                </tr>
+                
               </table>
 
               <p><?php echo __('messages.mail.expire', ['minutes' => $minutes]); ?></p>

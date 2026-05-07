@@ -12,7 +12,8 @@ class ResendOtpController extends ApiController
     public function __invoke(ResendOtpRequest $request, GenerateCodeService $generateCodeService)
     {
         $user = User::firstWhere('email', $request->email);
-        $generateCodeService->otpCode($user, $request->url);
+        $generateCodeService->otpCode($user);
+        // $generateCodeService->otpCode($user, $request->url);
         return $this->successResponse(__('auth.verification_code_resent'));
     }
 }

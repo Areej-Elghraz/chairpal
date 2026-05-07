@@ -1,0 +1,676 @@
+[
+  // ==========================
+  // AUTHENTICATION
+  // ==========================
+  {
+    "endpoint": "POST /api/signup",
+    "description": "Register a new user",
+    "request": {
+      "name": "Jane Doe",
+      "email": "jane@example.com",
+      "password": "password123",
+      "password_confirmation": "password123",
+      "role": "user"
+    },
+    "response": {
+      "message": "Welcome to ChairPal! Please verify your email with the code we’ve sent to you.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/login",
+    "description": "Login existing user",
+    "request": {
+      "email": "jane@example.com",
+      "password": "password123"
+    },
+    "response": {
+      "message": "Logged in successfully.",
+      "data": {
+        "data": {
+          "id": 1,
+          "name": "Jane Doe",
+          "email": "jane@example.com",
+          "role": "user"
+        },
+        "access_token": "1|token_string_here...",
+        "access_token_expires_in": 7200,
+        "remember_token": "2|remember_token_string_here...",
+        "remember_token_expires_in": 1209600
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/refresh-token",
+    "description": "Refresh access token using remember token",
+    "request": {},
+    "response": {
+      "message": "Token Refreshed successfully.",
+      "data": {
+        "access_token": "3|new_token_string_here...",
+        "access_token_expires_in": 7200
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/forget-password",
+    "description": "Send OTP to reset password",
+    "request": {
+      "email": "jane@example.com"
+    },
+    "response": {
+      "message": "The Verification code (OTP) has been sent to your email.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/resend-otp",
+    "description": "Resend OTP to reset password",
+    "request": {
+      "email": "jane@example.com"
+    },
+    "response": {
+      "message": "Verification code (OTP) has been resent successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/verify-otp",
+    "description": "Verify OTP for resetting password",
+    "request": {
+      "email": "jane@example.com",
+      "otp": "123456"
+    },
+    "response": {
+      "message": "Awesome! Your Verification code (OTP) has been verified successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/reset-password",
+    "description": "Reset password using token",
+    "request": {
+      "email": "jane@example.com",
+      "password": "newpassword123",
+      "password_confirmation": "newpassword123",
+      "token": "valid_reset_token"
+    },
+    "response": {
+      "message": "Password has been reset successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/resend-verification-code",
+    "description": "Resend email verification code",
+    "request": {
+      "email": "jane@example.com"
+    },
+    "response": {
+      "message": "Code has been resent successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/verify-email",
+    "description": "Verify user email using code",
+    "request": {
+      "email": "jane@example.com",
+      "otp": "1234"
+    },
+    "response": {
+      "message": "Awesome! Your email has been verified successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/logout",
+    "description": "Logout user",
+    "request": {},
+    "response": {
+      "message": "You have been logged out successfully.",
+      "data": []
+    }
+  },
+  // ==========================
+  // PROFILE
+  // ==========================
+  {
+    "endpoint": "PUT /api/profile/update",
+    "description": "Update user profile",
+    "request": {
+      "name": "Jane Doe updated",
+      "phone": "+1234567890",
+      "image": "(file upload optional)"
+    },
+    "response": {
+      "message": "Profile updated successfully.",
+      "data": {
+        "id": 1,
+        "name": "Jane Doe updated",
+        "phone": "+1234567890"
+      }
+    }
+  },
+  {
+    "endpoint": "PUT /api/profile/change-password",
+    "description": "Change user password",
+    "request": {
+      "current_password": "password123",
+      "password": "newpassword123",
+      "password_confirmation": "newpassword123"
+    },
+    "response": {
+      "message": "Password changed successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "GET /api/profile/favorites",
+    "description": "Get all user favorites",
+    "request": {},
+    "response": {
+      "message": "Favorites retrieved successfully.",
+      "data": [
+        // List of favorited places and organizations
+      ]
+    }
+  },
+  // ==========================
+  // ORGANIZATIONS
+  // ==========================
+  {
+    "endpoint": "GET /api/organizations",
+    "description": "List organizations. Accepts filters.",
+    "request": {
+      "category_id": 1,
+      "country_id": 2,
+      "city_id": 5,
+      "has_categories": true,
+      "include": "categories,places"
+    },
+    "response": {
+      "message": "Organizations retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "name": "Main Org",
+          "average_rating": 4.5
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "POST /api/organizations",
+    "description": "Create an organization",
+    "request": {
+      "name": "New Organization",
+      "category_name": "Healthcare",
+      "country_name": "USA",
+      "city_name": "New York",
+      "description": "Accessible Healthcare Org",
+      "image": "(file upload optional)"
+    },
+    "response": {
+      "message": "Organization created successfully.",
+      "data": {
+        "id": 2,
+        "name": "New Organization",
+        "owner_id": 1
+      }
+    }
+  },
+  {
+    "endpoint": "GET /api/organizations/{id}",
+    "description": "Get a specific organization by ID",
+    "request": {
+      "include": "places,categories,reviews"
+    },
+    "response": {
+      "message": "Organization retrieved successfully.",
+      "data": {
+        "id": 1,
+        "name": "Main Org"
+      }
+    }
+  },
+  {
+    "endpoint": "PUT /api/organizations/{id}",
+    "description": "Update an organization",
+    "request": {
+      "name": "Updated Org Name",
+      "description": "Updated info"
+    },
+    "response": {
+      "message": "Organization updated successfully.",
+      "data": {
+        "id": 1,
+        "name": "Updated Org Name"
+      }
+    }
+  },
+  {
+    "endpoint": "DELETE /api/organizations/{id}",
+    "description": "Delete an organization",
+    "request": {},
+    "response": {
+      "message": "Organization deleted successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/organizations/{organization}/reviews",
+    "description": "Add a review to an organization",
+    "request": {
+      "rating": 5,
+      "comment": "Great accessible facilities!"
+    },
+    "response": {
+      "message": "Review added successfully.",
+      "data": {
+        "id": 1,
+        "rating": 5,
+        "comment": "Great accessible facilities!"
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/organizations/{organization}/favorite",
+    "description": "Toggle favorite status for an organization",
+    "request": {},
+    "response": {
+      "message": "Added to favorites successfully. (Or Removed)",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/organizations/{organization}/visit",
+    "description": "Record a visit to an organization",
+    "request": {},
+    "response": {
+      "message": "Visit recorded successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/organizations/{organization}/comments",
+    "description": "Add a comment to an organization",
+    "request": {
+      "content": "Is there a parking space inside?"
+    },
+    "response": {
+      "message": "Comment added successfully.",
+      "data": {
+        "id": 1,
+        "content": "Is there a parking space inside?"
+      }
+    }
+  },
+  // ==========================
+  // PLACES
+  // ==========================
+  {
+    "endpoint": "GET /api/places",
+    "description": "List places visible to the user. Accepts filters.",
+    "request": {
+      "category_id": 2,
+      "organization_id": 1,
+      "country_id": 2,
+      "has_categories": true,
+      "include": "categories,organization"
+    },
+    "response": {
+      "message": "Places retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "name": "Central Park Path",
+          "average_rating": 5.0
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "POST /api/places",
+    "description": "Create a new place",
+    "request": {
+      "name": "Accessibility Ramp A",
+      "category_name": "Ramps",
+      "country_name": "USA",
+      "city_name": "New York",
+      "organization_id": 1,
+      "description": "Ramp at the main entrance",
+      "image": "(file upload optional)"
+    },
+    "response": {
+      "message": "Place created successfully.",
+      "data": {
+        "id": 2,
+        "name": "Accessibility Ramp A"
+      }
+    }
+  },
+  {
+    "endpoint": "GET /api/places/{id}",
+    "description": "Get a specific place by ID",
+    "request": {
+      "include": "reviews,organization,categories"
+    },
+    "response": {
+      "message": "Place retrieved successfully.",
+      "data": {
+        "id": 1,
+        "name": "Central Park Path"
+      }
+    }
+  },
+  {
+    "endpoint": "PUT /api/places/{id}",
+    "description": "Update a place",
+    "request": {
+      "name": "Updated Place Name",
+      "description": "Updated description"
+    },
+    "response": {
+      "message": "Place updated successfully.",
+      "data": {
+        "id": 1,
+        "name": "Updated Place Name"
+      }
+    }
+  },
+  {
+    "endpoint": "DELETE /api/places/{id}",
+    "description": "Delete a place",
+    "request": {},
+    "response": {
+      "message": "Place deleted successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/places/{place}/reviews",
+    "description": "Add a review to a place",
+    "request": {
+      "rating": 4,
+      "comment": "Good incline, quite smooth."
+    },
+    "response": {
+      "message": "Review added successfully.",
+      "data": {
+        "id": 2,
+        "rating": 4,
+        "comment": "Good incline, quite smooth."
+      }
+    }
+  },
+  {
+    "endpoint": "DELETE /api/reviews/{review}",
+    "description": "Delete a review you created",
+    "request": {},
+    "response": {
+      "message": "Review deleted successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/places/{place}/favorite",
+    "description": "Toggle favorite for a place",
+    "request": {},
+    "response": {
+      "message": "Removed from favorites successfully. (Or Added)",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/places/{place}/visit",
+    "description": "Record a visit to a place",
+    "request": {},
+    "response": {
+      "message": "Visit recorded successfully.",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/places/{place}/comments",
+    "description": "Add a text comment to a place without rating",
+    "request": {
+      "content": "Does anyone know if the elevator is fixed?"
+    },
+    "response": {
+      "message": "Comment added successfully.",
+      "data": {
+        "id": 1,
+        "content": "Does anyone know if the elevator is fixed?"
+      }
+    }
+  },
+  // ==========================
+  // CATEGORIES
+  // ==========================
+  {
+    "endpoint": "GET /api/categories",
+    "description": "List existing categories",
+    "request": {
+      "main_only": true,
+      "organization_id": 1,
+      "has_places": true
+    },
+    "response": {
+      "message": "Categories retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "name": "Ramps"
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "POST /api/categories",
+    "description": "Create a new category",
+    "request": {
+      "name": "Elevators"
+    },
+    "response": {
+      "message": "Category created successfully.",
+      "data": {
+        "id": 2,
+        "name": "Elevators"
+      }
+    }
+  },
+  {
+    "endpoint": "GET /api/categories/{id}",
+    "description": "Get a specific category",
+    "request": {},
+    "response": {
+      "message": "Category retrieved successfully.",
+      "data": {
+        "id": 1,
+        "name": "Ramps"
+      }
+    }
+  },
+  {
+    "endpoint": "PUT /api/categories/{id}",
+    "description": "Update a category",
+    "request": {
+      "name": "Wheelchair Ramps"
+    },
+    "response": {
+      "message": "Category updated successfully.",
+      "data": {
+        "id": 1,
+        "name": "Wheelchair Ramps"
+      }
+    }
+  },
+  {
+    "endpoint": "DELETE /api/categories/{id}",
+    "description": "Delete a category",
+    "request": {},
+    "response": {
+      "message": "Category deleted successfully.",
+      "data": []
+    }
+  },
+  // ==========================
+  // LOCATIONS
+  // ==========================
+  {
+    "endpoint": "GET /api/countries",
+    "description": "List all countries",
+    "request": {},
+    "response": {
+      "message": "Countries retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "name": "USA"
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "GET /api/countries/{id}",
+    "description": "Get country details",
+    "request": {},
+    "response": {
+      "message": "Country retrieved successfully.",
+      "data": {
+        "id": 1,
+        "name": "USA"
+      }
+    }
+  },
+  {
+    "endpoint": "GET /api/cities",
+    "description": "List all cities",
+    "request": {
+      "country_id": 1
+    },
+    "response": {
+      "message": "Cities retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "name": "New York",
+          "country_id": 1
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "GET /api/cities/{id}",
+    "description": "Get city details",
+    "request": {},
+    "response": {
+      "message": "City retrieved successfully.",
+      "data": {
+        "id": 1,
+        "name": "New York",
+        "country_id": 1
+      }
+    }
+  },
+  // ==========================
+  // CHATBOT
+  // ==========================
+  {
+    "endpoint": "GET /api/chatbot/sessions",
+    "description": "Get all chatbot sessions for the user",
+    "request": {},
+    "response": {
+      "message": "Chat sessions retrieved successfully.",
+      "data": [
+        {
+          "id": 1,
+          "title": "New Chat",
+          "user_id": 1
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "POST /api/chatbot/sessions",
+    "description": "Create a new chatbot session",
+    "request": {
+      "title": "My first chat"
+    },
+    "response": {
+      "message": "Chat session created",
+      "data": {
+        "id": 1,
+        "title": "My first chat",
+        "user_id": 1
+      }
+    }
+  },
+  {
+    "endpoint": "GET /api/chatbot/sessions/{session}",
+    "description": "Get a specific chatbot session including its messages",
+    "request": {},
+    "response": {
+      "message": "Session retrieved successfully.",
+      "data": {
+        "id": 1,
+        "title": "My first chat",
+        "messages": [
+          {
+            "id": 1,
+            "sender_type": "user",
+            "content": "Hello bot"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "endpoint": "DELETE /api/chatbot/sessions/{session}",
+    "description": "Delete a chatbot session",
+    "request": {},
+    "response": {
+      "message": "Chat session deleted successfully",
+      "data": []
+    }
+  },
+  {
+    "endpoint": "POST /api/chatbot/sessions/{session}/chat",
+    "description": "Send a message or media to the chatbot and get a response",
+    "request": {
+      "message": "Hello bot",
+      "media": "(file upload optional array)",
+      "system_message": "You are a friendly Chatbot.",
+      "max_tokens": 512,
+      "temperature": 0.7,
+      "top_p": 0.95
+    },
+    "response": {
+      "user_message": {
+        "id": 1,
+        "sender_type": "user",
+        "content": "Hello bot"
+      },
+      "bot_message": {
+        "id": 2,
+        "sender_type": "bot",
+        "content": "Hello! How can I help you today?"
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/chatbot/messages/{message}/reaction",
+    "description": "Like or dislike a message in the session",
+    "request": {
+      "reaction": "like"
+    },
+    "response": {
+      "message": "Reaction updated",
+      "data": {
+        "id": 2,
+        "reaction": "like"
+      }
+    }
+  }
+]

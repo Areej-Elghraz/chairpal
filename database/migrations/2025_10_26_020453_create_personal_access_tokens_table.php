@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('tokenable');
             $table->text('name');
+            // $table->foreignId('device_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();

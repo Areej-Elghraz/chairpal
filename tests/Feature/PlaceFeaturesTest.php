@@ -1,0 +1,150 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Enums\TokenAbilityEnum;
+use App\Models\Category;
+use App\Models\Organization;
+use App\Models\Place;
+use App\Models\Review;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class PlaceFeaturesTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function authenticate()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('test-token', [TokenAbilityEnum::ACCESS_TOKEN->value])->plainTextToken;
+        return [$user, ['Authorization' => 'Bearer ' . $token]];
+    }
+
+    protected function createPlaceDeps()
+    {
+        $category = Category::create(['name' => 'Test Category']);
+        $organization = Organization::create(['name' => 'Test Org']);
+        return [$category, $organization];
+    }
+
+    public function test_can_review_place()
+    {
+        [$user, $headers] = $this->authenticate();
+        [$category, $organization] = $this->createPlaceDeps();
+
+        $place = Place::create([
+            'name' => 'Test Place',
+            'latitude' => 10,
+            'longitude' => 10,
+            'category_id' => $category->id,
+            'organization_id' => $organization->id,
+        ]);
+
+        $response = $this->postJson("/api/places/{$place->id}/reviews", [
+            'rating' => 5,
+            'comment' => 'Great place!',
+        ], $headers);
+
+        $response->assertStatus(201)
+                 ->assertJsonPath('data.review.rating', 5)
+                 ->assertJsonPath('data.review.comment', 'Great place!');
+
+        $this->assertDatabaseHas('reviews', [
+            'place_id' => $place->id,
+            'user_id' => $user->id,
+            'rating' => 5,
+        ]);
+    }
+
+    public function test_place_resource_includes_ratings()
+    {
+        [$user, $headers] = $this->authenticate();
+        [$category, $organization] = $this->createPlaceDeps();
+
+        $place = Place::create([
+            'name' => 'Rated Place',
+            'category_id' => $category->id,
+            'organization_id' => $organization->id,
+        ]);
+        
+        // Create reviews
+        $place->reviews()->create(['user_id' => $user->id, 'rating' => 5, 'comment' => 'Best']);
+        $otherUser = User::factory()->create();
+        $place->reviews()->create(['user_id' => $otherUser->id, 'rating' => 3, 'comment' => 'Average']);
+
+        $response = $this->getJson("/api/places/{$place->id}", $headers);
+        
+        $response->dump();
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('data.rating', 4) // (5+3)/2 = 4
+                 ->assertJsonPath('data.rating_distribution.4', '50%')
+                 ->assertJsonPath('data.rating_distribution.2', '50%');
+    }
+
+    public function test_can_favorite_place()
+    {
+        [$user, $headers] = $this->authenticate();
+        [$category, $organization] = $this->createPlaceDeps();
+
+        $place = Place::create([
+            'name' => 'Fav Place',
+            'category_id' => $category->id,
+            'organization_id' => $organization->id,
+        ]);
+
+        // Toggle On
+        $response = $this->postJson("/api/places/{$place->id}/favorite", [], $headers);
+        $response->assertStatus(200)
+                 ->assertJsonPath('data.is_favorited', true);
+        
+        $this->assertDatabaseHas('favorites', ['user_id' => $user->id, 'place_id' => $place->id]);
+
+        // Toggle Off
+        $response = $this->postJson("/api/places/{$place->id}/favorite", [], $headers);
+        $response->assertStatus(200)
+                 ->assertJsonPath('data.is_favorited', false);
+        
+        $this->assertDatabaseMissing('favorites', ['user_id' => $user->id, 'place_id' => $place->id]);
+    }
+
+    public function test_can_delete_review()
+    {
+        [$user, $headers] = $this->authenticate();
+        [$category, $organization] = $this->createPlaceDeps();
+
+        $place = Place::create([
+            'name' => 'Place',
+            'category_id' => $category->id,
+            'organization_id' => $organization->id,
+        ]);
+        $review = $place->reviews()->create(['user_id' => $user->id, 'rating' => 4]);
+
+        $response = $this->deleteJson("/api/reviews/{$review->id}", [], $headers);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('reviews', ['id' => $review->id]);
+    }
+
+    public function test_cannot_delete_others_review()
+    {
+        [$user, $headers] = $this->authenticate();
+        [$category, $organization] = $this->createPlaceDeps();
+
+        $otherUser = User::factory()->create();
+        $place = Place::create([
+            'name' => 'Place',
+            'category_id' => $category->id,
+            'organization_id' => $organization->id,
+        ]);
+        $review = $place->reviews()->create(['user_id' => $otherUser->id, 'rating' => 4]);
+
+        $response = $this->deleteJson("/api/reviews/{$review->id}", [], $headers);
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('reviews', ['id' => $review->id]);
+    }
+}

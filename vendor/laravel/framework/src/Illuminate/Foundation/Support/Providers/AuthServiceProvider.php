@@ -2,6 +2,12 @@
 
 namespace Illuminate\Foundation\Support\Providers;
 
+use App\Models\Category;
+use App\Models\Organization;
+use App\Models\Place;
+use App\Policies\CategoryPolicy;
+use App\Policies\OrganizationPolicy;
+use App\Policies\PlacePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +18,11 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected $policies = [];
+    protected $policies = [
+        Organization::class => OrganizationPolicy::class,
+        Category::class     => CategoryPolicy::class,
+        Place::class        => PlacePolicy::class,
+    ];
 
     /**
      * Register the application's policies.

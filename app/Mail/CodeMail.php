@@ -13,16 +13,17 @@ class CodeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $code, $minutes, $maxTimes, $remainTimes, $name, $url;
+    public $code, $minutes, $maxTimes, $remainTimes, $name;
+    // , $url;
 
-    public function __construct($code, $seconds, $maxTimes, $remainTimes, $name, $url)
+    public function __construct($code, $seconds, $maxTimes, $remainTimes, $name)
     {
         $this->code = $code;
-        $this->minutes = $seconds;
+        $this->minutes = $seconds / 60;
         $this->maxTimes = $maxTimes;
         $this->remainTimes = $remainTimes;
         $this->name = $name;
-        $this->url = $url;
+        // $this->url = $url;
     }
 
     public function envelope(): Envelope
@@ -42,7 +43,7 @@ class CodeMail extends Mailable
                 'maxTimes' => $this->maxTimes,
                 'remainTimes' => $this->remainTimes,
                 'name' => $this->name,
-                'url' => $this->url,
+                // 'url' => $this->url,
             ]
         );
     }

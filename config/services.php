@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_CALLBACK'),
+    ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_CALLBACK'),
+    ],
+
+    'ios' => [
+        'client_id' => env('IOS_CLIENT_ID'),
+        'client_secret' => env('IOS_CLIENT_SECRET'),
+        'redirect' => env('IOS_CALLBACK'),
+    ],
+
 ];

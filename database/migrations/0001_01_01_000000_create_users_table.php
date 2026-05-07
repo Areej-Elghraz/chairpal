@@ -1,7 +1,7 @@
 <?php
 
-use App\LanguagePreferenceEnum;
-use App\UserRoleEnum;
+use App\Enums\LanguagePreferenceEnum;
+use App\Enums\UserRoleEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,25 +9,44 @@ use Illuminate\Validation\Rules\Enum;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            // name
             $table->string('name');
+            // email
             $table->string('email')->unique();
             $table->string('email_verification_code')->nullable();
             $table->tinyInteger('email_verification_times_sent')->nullable();
             $table->timestamp('email_verification_code_expires_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('role', UserRoleEnum::cases())->default(UserRoleEnum::USER->value);
-            $table->enum('language_preference', LanguagePreferenceEnum::cases())->default(LanguagePreferenceEnum::EN->value);
-            $table->string('contact_number')->unique()->nullable();
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
+            // password
+            $table->string('password')->nullable();
+            $table->string('password_set')->default(true); /// 
+            // socialite
+            $table->string('provider_id')->nullable(); /// 
+            $table->string('provider_name')->nullable(); /// 
+            // role
+            $table->enum('role', UserRoleEnum::cases())
+                ->default(UserRoleEnum::USER->value);
+
+
+            // user -> data
+            $table->string('phone')->unique()->nullable();
+            $table->tinyInteger('age')->nullable();
+            $table->boolean('follow_doctor')->nullable();
+
+            // organization -> data
+            // $table->string('location')->nullable();
+            $table->string('image')->nullable();
+            // $table->string('language')->default(LanguagePreferenceEnum::EN->value);
+
+            // $table->string('provider_token');
+            // $table->string('provider_refresh_token');
+            // $table->decimal('latitude', 10, 7)->nullable();SS
+            // $table->decimal('longitude', 10, 7)->nullable();
+            // $table->enum('language', LanguagePreferenceEnum::cases())->default(LanguagePreferenceEnum::EN->value);
             // disability_type
             // mobility_issues
             // chronic_illness

@@ -1,0 +1,88 @@
+<?php
+return [
+
+  // Resources.
+  'resources' => [
+    'resource'     => ['singular' => '자원',          'plural' => '자원',],
+    'admin'        => ['singular' => '관리자',        'plural' => '관리자',],
+    'user'         => ['singular' => '사용자',        'plural' => '사용자',],
+    'banner'       => ['singular' => '배너',          'plural' => '배너',],
+    'category'     => ['singular' => '카테고리',      'plural' => '카테고리',],
+    'organization' => ['singular' => '기관',          'plural' => '기관',],
+    'place'        => ['singular' => '장소',          'plural' => '장소',],
+    'phonenumber'  => ['singular' => '전화 번호',     'plural' => '전화 번호',],
+    'product'      => ['singular' => '제품',          'plural' => '제품',],
+    'productimage' => ['singular' => '이미지',        'plural' => '이미지',],
+    'image'        => ['singular' => '이미지',        'plural' => '이미지',],
+    'all_images'   => ['singular' => '모든 이미지',    'plural' => '모든 이미지',],
+    'profile'      => ['singular' => '프로필 데이터',  'plural' => '프로필 데이터',],
+    'sociallink'   => ['singular' => '소셜 링크',      'plural' => '소셜 링크',],
+    'country'      => ['singular' => '국가',          'plural' => '국가',],
+    'city'         => ['singular' => '도시',          'plural' => '도시',],
+    'review'       => ['singular' => '리뷰',          'plural' => '리뷰',],
+        'like'         => ['singular' => '좋아요', 'plural'  => '좋아요'],
+    'post'         => ['singular' => '게시물', 'plural'  => '게시물'],
+    'comment'      => ['singular' => '댓글', 'plural'  => '댓글'],
+    'language'     => ['singular' => '언어', 'plural'  => '언어'],
+    'visitor'      => ['singular' => '방문',          'plural' => '방문',],
+  ],
+
+  'actions' => [
+    'retrieved_success'     => ':resource 검색 성공!',
+    'created_success'       => ':resource 생성 성공!',
+    'updated_success'       => ':resource 업데이트 성공!',
+    'deleted_success'       => ':resource 삭제 성공!',
+    'restored_success'      => ':resource 복원 성공!',
+    'force_deleted_success' => ':resource 영구 삭제됨!',
+    'error'                 => '요청을 처리하는 중 문제가 발생했습니다. 나중에 다시 시도하십시오!',
+    'added_to_favorites'    => '장소가 즐겨찾기에 성공적으로 추가되었습니다!',
+    'removed_from_favorites'=> '장소가 즐겨찾기에서 성공적으로 제거되었습니다!',
+    'created'               => '자원이 성공적으로 생성되었습니다!',
+    'updated'               => '자원이 성공적으로 업데이트되었습니다!',
+    'deleted'               => '자원이 성공적으로 삭제되었습니다!',
+  ],
+
+  // Error messages.
+  'invalid_credentials'        => '잘못된 자격 증명입니다!',
+  'image_not_found_in_product' => '이 제품에서 이미지를 찾을 수 없습니다!',
+  'product_has_no_images'      => '제품에 삭제할 이미지가 없습니다!',
+  'cannot_delete_position'     => '":position" 이미지를 삭제할 수 없습니다. 교체해 보십시오!',
+  '404_not_found'              => ':model 찾을 수 없음!',
+  'method_not_allowed'         => '요청 방법이 허용되지 않습니다.',
+  'too_many_requests'          => '요청이 너무 많습니다. 나중에 다시 시도하십시오.',
+  'database_error'             => '데이터베이스를 처리하는 중 오류가 발생했습니다.',
+  'http_error'                 => '요청을 처리하는 중 오류가 발생했습니다.',
+  'internal_server_error'      => '내부 서버 오류가 발생했습니다. 나중에 다시 시도하십시오.',
+  'file_error'                 => '파일을 처리하는 중 오류가 발생했습니다.',
+  'external_api_error'         => '외부 서비스와 통신하는 중 오류가 발생했습니다. 나중에 다시 시도하십시오.',
+  'invalid_json'               => '제공된 JSON 데이터가 부적절합니다.',
+  'max_reached'                => ':object의 최대 허용 수(:max)에 도달했습니다.',
+  'invalid_request'            => '잘못된 요청.',
+  'exceptions'                 => [
+    'category_already_exists' => '카테고리가 이미 존재합니다!',
+  ],
+
+  // Mail messages.
+  'mail' => [
+    'title'             => '이메일 확인',
+    'greeting'          => '안녕하세요',
+    'body'              => '다음 일회용 비밀번호(OTP)를 사용하여 이메일을 확인하십시오:',
+    'verify_button'     => '여기서 확인',
+    'expire'            => '이 코드는 <strong>:minutes분</strong> 후에 만료됩니다.',
+    'remaining_times'   => '코드를 :remain번 더 다시 보낼 수 있습니다(허용된 :max번 중).',
+    'ignore'            => '이것을 요청하지 않았다면 이 이메일을 안전하게 무시할 수 있습니다.',
+    'footer'            => '판권 소유.',
+    'verification_code' => '확인 코드',
+  ],
+  'account_deleted' => '계정이 성공적으로 삭제되었습니다.',
+  'support_message_sent' => '메시지가 성공적으로 전송되었습니다.',
+
+  // ChatBot and User actions.
+  'chat_session_created' => '채팅 세션이 생성되었습니다',
+  'unauthorized' => '권한 없음',
+  'chat_session_deleted' => '채팅 세션이 성공적으로 삭제되었습니다',
+  'message_media_required' => '메시지 또는 미디어가 필요합니다',
+  'user_message_saved_bot_failed' => '사용자 메시지가 저장되었지만 봇이 응답하지 못했습니다.',
+  'bot_service_unavailable' => '봇 서비스를 사용할 수 없습니다: ',
+  'reaction_updated' => '반응이 업데이트되었습니다',
+];

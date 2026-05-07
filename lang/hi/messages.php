@@ -1,0 +1,88 @@
+<?php
+return [
+
+  // Resources.
+  'resources' => [
+    'resource'     => ['singular' => 'संसाधन',       'plural' => 'संसाधन',],
+    'admin'        => ['singular' => 'ए व्यवस्थापक',  'plural' => 'व्यवस्थापक',],
+    'user'         => ['singular' => 'उपयोगकर्ता',    'plural' => 'उपयोगकर्ता',],
+    'banner'       => ['singular' => 'बैनर',         'plural' => 'बैनर',],
+    'category'     => ['singular' => 'श्रेणी',        'plural' => 'श्रेणियाँ',],
+    'organization' => ['singular' => 'संस्था',         'plural' => 'संस्थाएं',],
+    'place'        => ['singular' => 'स्थान',         'plural' => 'स्थान',],
+    'phonenumber'  => ['singular' => 'फ़ोन नंबर',     'plural' => 'फ़ोन नंबर',],
+    'product'      => ['singular' => 'उत्पाद',       'plural' => 'उत्पाद',],
+    'productimage' => ['singular' => 'छवि',          'plural' => 'छवियाँ',],
+    'image'        => ['singular' => 'छवि',          'plural' => 'छवियाँ',],
+    'all_images'   => ['singular' => 'सभी छवियाँ',    'plural' => 'सभी छवियाँ',],
+    'profile'      => ['singular' => 'प्रोफ़ाइल डेटा', 'plural' => 'प्रोफ़ाइल डेटा',],
+    'sociallink'   => ['singular' => 'सामाजिक लिंक',  'plural' => 'सामाजिक लिंक',],
+    'country'      => ['singular' => 'देश',            'plural' => 'देशों',],
+    'city'         => ['singular' => 'शहर',            'plural' => 'शहरों',],
+    'review'       => ['singular' => 'समीक्षा',         'plural' => 'समीक्षाएँ',],
+        'like'         => ['singular' => 'पसंद', 'plural'  => 'पसंद'],
+    'post'         => ['singular' => 'पोस्ट', 'plural'  => 'पोस्ट'],
+    'comment'      => ['singular' => 'टिप्पणी', 'plural'  => 'टिप्पणियाँ'],
+    'language'     => ['singular' => 'भाषा', 'plural'  => 'भाषाएँ'],
+    'visitor'      => ['singular' => 'यात्रा',          'plural' => 'यात्राएँ',],
+  ],
+
+  'actions' => [
+    'retrieved_success'     => ':resource सफलतापूर्वक प्राप्त किया गया!',
+    'created_success'       => ':resource सफलतापूर्वक बनाया गया!',
+    'updated_success'       => ':resource सफलतापूर्वक अपडेट किया गया!',
+    'deleted_success'       => ':resource सफलतापूर्वक हटाया गया!',
+    'restored_success'      => ':resource सफलतापूर्वक बहाल किया गया!',
+    'force_deleted_success' => ':resource स्थायी रूप से हटा दिया गया!',
+    'error'                 => 'आपके अनुरोध को संसाधित करते समय कुछ गलत हो गया। कृपया बाद में पुनः प्रयास करें!',
+    'added_to_favorites'    => 'स्थान को पसंदीदा में सफलतापूर्वक जोड़ा गया!',
+    'removed_from_favorites'=> 'स्थान को पसंदीदा से सफलतापूर्वक हटा दिया गया!',
+    'created'               => 'संसाधन सफलतापूर्वक बनाया गया!',
+    'updated'               => 'संसाधन सफलतापूर्वक अपडेट किया गया!',
+    'deleted'               => 'संसाधन सफलतापूर्वक हटाया गया!',
+  ],
+
+  // Error messages.
+  'invalid_credentials'        => 'अमान्य क्रेडेंशियल्स!',
+  'image_not_found_in_product' => 'इस उत्पाद में छवि नहीं मिली!',
+  'product_has_no_images'      => 'उत्पाद में हटाने के लिए कोई चित्र नहीं है!',
+  'cannot_delete_position'     => 'आप ":position" छवि को हटा नहीं सकते, इसे बदलने का प्रयास करें!',
+  '404_not_found'              => ':model नहीं मिला!',
+  'method_not_allowed'         => 'अनुरोध विधि की अनुमति नहीं है।',
+  'too_many_requests'          => 'बहुत सारे अनुरोध। कृपया बाद में पुनः प्रयास करें।',
+  'database_error'             => 'डेटाबेस को संसाधित करते समय एक त्रुटि हुई।',
+  'http_error'                 => 'अनुरोध को संसाधित करते समय एक त्रुटि हुई।',
+  'internal_server_error'      => 'एक आंतरिक सर्वर त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।',
+  'file_error'                 => 'फ़ाइल को संसाधित करते समय एक त्रुटि हुई।',
+  'external_api_error'         => 'बाहरी सेवा के साथ संचार करते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।',
+  'invalid_json'               => 'प्रदान किया गया JSON डेटा अमान्य है।',
+  'max_reached'                => 'आप :object (:max) की अधिकतम अनुमत संख्या तक पहुँच गए हैं।',
+  'invalid_request'            => 'अमान्य अनुरोध।',
+  'exceptions'                 => [
+    'category_already_exists' => 'श्रेणी पहले से मौजूद है!',
+  ],
+
+  // Mail messages.
+  'mail' => [
+    'title'             => 'ईमेल सत्यापन',
+    'greeting'          => 'नमस्ते',
+    'body'              => 'अपने ईमेल को सत्यापित करने के लिए निम्नलिखित वन-टाइम पासवर्ड (OTP) का उपयोग करें:',
+    'verify_button'     => 'यहाँ सत्यापित करें',
+    'expire'            => 'यह कोड <strong>:minutes मिनट</strong> में समाप्त हो जाएगा।',
+    'remaining_times'   => 'आप कोड को :remain और बार पुनः भेज सकते हैं (:max में से)।',
+    'ignore'            => 'यदि आपने इसका अनुरोध नहीं किया है, तो आप सुरक्षित रूप से इस ईमेल को अनदेखा कर सकते हैं।',
+    'footer'            => 'सर्वाधिकार सुरक्षित।',
+    'verification_code' => 'सत्यापन कोड',
+  ],
+  'account_deleted' => 'खाता सफलतापूर्वक हटा दिया गया।',
+  'support_message_sent' => 'आपका संदेश सफलतापूर्वक भेज दिया गया है।',
+
+  // ChatBot and User actions.
+  'chat_session_created' => 'चैट सत्र बनाया गया',
+  'unauthorized' => 'अनाधिकृत',
+  'chat_session_deleted' => 'चैट सत्र सफलतापूर्वक हटा दिया गया',
+  'message_media_required' => 'संदेश या मीडिया आवश्यक है',
+  'user_message_saved_bot_failed' => 'उपयोगकर्ता संदेश सहेजा गया, लेकिन बॉट जवाब देने में विफल रहा।',
+  'bot_service_unavailable' => 'बॉट सेवा अनुपलब्ध: ',
+  'reaction_updated' => 'प्रतिक्रिया अद्यतन की गई',
+];

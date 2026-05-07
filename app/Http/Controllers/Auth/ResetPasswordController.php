@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,12 +14,12 @@ use Illuminate\Validation\ValidationException;
 class ResetPasswordController extends ApiController
 {
 
-    public function __invoke(ResetPasswordRequest $request)
+    public function __invoke(ResetPasswordRequest $request, UserService $userService)
     {
         $validated = $request->validated();
-        $user      = User::where('email', $request->email)?->first();
+        $user      = $userService->getUserByEmail($request->email);
         $otpRecord = DB::table('password_reset_tokens')
-            ->where('email', $user->email)
+            ->where('email', $request->email)
             ->first();
 
         if (!$user) {
@@ -26,15 +27,16 @@ class ResetPasswordController extends ApiController
         }
 
         if (!$otpRecord || empty($otpRecord->verified) || !$otpRecord->verified) {
-            throw new \Exception(__('messages.must_verify_otp_first'), 403);
+            throw new \Exception(__('auth.must_verify_first', ['attribute' => __('validation.attributes.otp')]), 403);
         }
 
         if (Hash::check($validated['new_password'], $user->password)) {
             throw ValidationException::withMessages(['new_password' => __('validation.new_password_must_differ')]);
         }
 
-        $user->update([
+        $userService->updateUser($user, [
             'password' => Hash::make($validated['new_password']),
+            'password_set' => true,
         ]);
 
         /// Fire reset event (optional)
@@ -46,6 +48,6 @@ class ResetPasswordController extends ApiController
 
         $user->tokens()?->where('name', $user->currentAccessToken()?->name)->delete();
 
-        return $this->successResponse(__('messages.password_reset'));
+        return $this->successResponse(__('auth.password_reset_success'));
     }
 }

@@ -20,7 +20,7 @@ class ResendVerificationCodeRequest extends FormRequest
     {
         return [
             'email' => 'required|email|exists:users,email', ///merge
-            'url'   => 'required|url',
+            // 'url'   => 'required|url',
         ];
     }
 }
