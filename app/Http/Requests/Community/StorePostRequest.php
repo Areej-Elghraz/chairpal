@@ -14,9 +14,11 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content'  => 'nullable|string',
+            'content' => 'nullable|string',
+            'images' => 'nullable|array',
             'images.*' => 'image|max:2048',
-            'files.*'  => 'file|max:5120',
+            'files' => 'nullable|array',
+            'files.*' => 'file|max:5120',
         ];
     }
 }

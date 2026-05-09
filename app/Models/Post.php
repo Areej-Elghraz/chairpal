@@ -17,7 +17,7 @@ class Post extends Model
 
     protected $casts = [
         'images' => 'array',
-        'files'  => 'array',
+        'files' => 'array',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -54,4 +54,21 @@ class Post extends Model
     {
         return $this->belongsToMany(User::class, 'hidden_posts')->withTimestamps();
     }
+
+    public function getImagesAttribute($value)
+    {
+        if (!$value)
+            return [];
+        $images = is_array($value) ? $value : json_decode($value, true);
+        return array_map(fn($img) => asset('storage/' . $img), $images);
+    }
+
+    public function getFilesAttribute($value)
+    {
+        if (!$value)
+            return [];
+        $files = is_array($value) ? $value : json_decode($value, true);
+        return array_map(fn($file) => asset('storage/' . $file), $files);
+    }
+
 }

@@ -52,14 +52,22 @@ class PostController extends ApiController
 
         $images = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
+            $imageFiles = $request->file('images');
+            if (!is_array($imageFiles)) {
+                $imageFiles = [$imageFiles];
+            }
+            foreach ($imageFiles as $file) {
                 $images[] = $file->store('posts/images', 'public');
             }
         }
 
         $files = [];
         if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
+            $uploadedFiles = $request->file('files');
+            if (!is_array($uploadedFiles)) {
+                $uploadedFiles = [$uploadedFiles];
+            }
+            foreach ($uploadedFiles as $file) {
                 $files[] = $file->store('posts/files', 'public');
             }
         }
