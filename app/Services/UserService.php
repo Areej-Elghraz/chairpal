@@ -29,7 +29,6 @@ class UserService
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'email_verified_at' => now(),
             'role' => $data['role'] ?? $role,
             'password' => Hash::make($data['password']),
             'language' => $data['language'] ?? LanguagePreferenceEnum::EN->value,

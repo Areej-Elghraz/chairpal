@@ -23,9 +23,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'email_verification_code',
-        'email_verification_times_sent',
-        'email_verification_code_expires_at',
         'email_verified_at',
         'password',
         'password_set',
@@ -53,9 +50,6 @@ class User extends Authenticatable
         'provider_name',
         'password_set',
         'remember_token',
-        'email_verification_code',
-        'email_verification_times_sent',
-        'email_verification_code_expires_at',
         'provider_token',
         'provider_refresh_token',
     ];
@@ -69,9 +63,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at'                  => 'datetime',
-            'email_verification_code_expires_at' => 'datetime',
             'password'                           => 'hashed',
-            'email_verification_code'            => 'hashed',
             'language'                           => \App\Enums\LanguagePreferenceEnum::class,
         ];
     }
