@@ -9,7 +9,7 @@ use App\Services\UserService;
 
 class RegisterController extends ApiController
 {
-    public function __invoke(RegisterRequest $request, GenerateCodeService $generateCodeService, UserService $userService)
+    public function __invoke(RegisterRequest $request, UserService $userService)
     {
         $path = null;
         if ($request->hasFile('image')) {
@@ -17,9 +17,7 @@ class RegisterController extends ApiController
         }
 
         $user = $userService->createUser($request->validated(), $path);
-        
-        $generateCodeService->verificationCode($user);
-        
+
         return $this->successResponse(message: __('auth.register_success'));
     }
 }

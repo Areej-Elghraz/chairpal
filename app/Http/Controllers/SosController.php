@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class SosController extends Controller
+class SosController extends ApiController
 {
     /**
      * Trigger SOS alert.

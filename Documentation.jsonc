@@ -48,7 +48,9 @@
       "message": "Token Refreshed successfully.",
       "data": {
         "access_token": "3|new_token_string_here...",
-        "access_token_expires_in": 7200
+        "access_token_expires_in": 7200,
+        "remember_token": "2|remember_token_string_here...",
+        "remember_token_expires_in": 1209600
       }
     }
   },
@@ -671,6 +673,136 @@
         "id": 2,
         "reaction": "like"
       }
+    }
+  },
+  // ==========================
+  // TRIPS
+  // ==========================
+  {
+    "endpoint": "GET /api/trips",
+    "description": "List user trips",
+    "request": {},
+    "response": {
+      "message": "Trips retrieved successfully",
+      "data": {
+        "trips": [
+          {
+            "id": 1,
+            "status": "completed",
+            "start_time": "2026-05-09T10:00:00Z"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/trips",
+    "description": "Initiate a new trip",
+    "request": {
+      "e_chair_id": 1,
+      "start_location": { "type": "gps", "lat": 30.0, "lng": 31.0 },
+      "end_location": { "type": "indoor", "x": 10.5, "y": 20.2, "floor": 1 },
+      "navigation_mode": "manual"
+    },
+    "response": {
+      "message": "Trip initiated successfully",
+      "data": {
+        "trip": { "id": 1, "status": "pending" }
+      }
+    }
+  },
+  {
+    "endpoint": "POST /api/trips/{trip}/updates",
+    "description": "Add a status update (Ingested asynchronously)",
+    "request": {
+      "update_type": "checkpoint_reached",
+      "source": "ai",
+      "update_data": { "checkpoint_id": 5 },
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "Trip update ingested",
+      "data": { "update": { "id": 1 } }
+    }
+  },
+  // ==========================
+  // AI / HW COMMUNICATION
+  // ==========================
+  {
+    "endpoint": "POST /api/ai-hw/telemetry",
+    "description": "Ingest wheelchair telemetry (Asynchronous)",
+    "request": {
+      "e_chair_id": 1,
+      "position_data": { "type": "gps", "lat": 30.0444, "lng": 31.2357 },
+      "speed": 1.5,
+      "battery_level": 85,
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "Telemetry ingested",
+      "data": { "telemetry": { "id": 1 } }
+    }
+  },
+  {
+    "endpoint": "POST /api/ai-hw/ai-logs",
+    "description": "Ingest AI status and decision logs",
+    "request": {
+      "e_chair_id": 1,
+      "event_type": "safety_override",
+      "component_name": "obstacle_avoidance",
+      "decision_context": { "obstacle_distance": 0.5, "speed": 1.2 },
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "AI log ingested",
+      "data": { "log": { "id": 1 } }
+    }
+  },
+  {
+    "endpoint": "POST /api/ai-hw/health-telemetry",
+    "description": "Ingest raw health sensor data",
+    "request": {
+      "e_chair_id": 1,
+      "type": "heart_rate",
+      "value": 75,
+      "sensor_status": "valid",
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "Health sensor log ingested",
+      "data": { "log": { "id": 1 } }
+    }
+  },
+  {
+    "endpoint": "POST /api/ai-hw/health-predictions",
+    "description": "Ingest AI-inferred health states",
+    "request": {
+      "e_chair_id": 1,
+      "prediction_type": "fainting",
+      "confidence": 0.92,
+      "is_critical": true,
+      "source_model": "vitals_v1",
+      "prediction_window_ms": 5000,
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "Health prediction ingested",
+      "data": { "prediction": { "id": 1 } }
+    }
+  },
+  {
+    "endpoint": "POST /api/ai-hw/emergency",
+    "description": "Log an emergency event and trigger notifications",
+    "request": {
+      "e_chair_id": 1,
+      "event_type": "fall_detected",
+      "source_classification": "health",
+      "severity": "critical",
+      "timestamp_ms": 1715241600000
+    },
+    "response": {
+      "message": "Emergency event recorded",
+      "data": { "emergency": { "id": 1 } }
     }
   }
 ]

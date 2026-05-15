@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use App\Mail\CodeMail;
+use App\Mail\OtpMail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class GenerateCodeService
 {
@@ -80,9 +81,12 @@ class GenerateCodeService
 
     $this->sendMail($user, $code, $expiration, $maxTimes, $newTimes);
   }
-  public function sendMail(User $user, string $code, int $expiration, int $maxTimes, int $newTimes) // string $url
+  public function sendMail(User $user, string $code, int $expiration, int $maxTimes, int $newTimes)
   {
-    Mail::to($user->email)->send(new CodeMail($code, $expiration, $maxTimes, $maxTimes - $newTimes, $user->name));
-    // Mail::to($user->email)->send(new CodeMail($code, $expiration, $maxTimes, $maxTimes - $newTimes, $user->name, $url));
+    try {
+      Mail::to($user->email)->send(new OtpMail($code));
+    } catch (\Exception $e) {
+      Log::error("Failed to send OTP to {$user->email}: " . $e->getMessage());
+    }
   }
 }

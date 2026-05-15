@@ -22,18 +22,11 @@ use Illuminate\Support\Facades\Route;
 // authentication
 Route::post('/signup', RegisterController::class)->name('auth.register');
 Route::post('/login', LoginController::class)->name('auth.login');
-Route::post('/refresh-token', RefreshTokenController::class)->name('auth.refresh-token')->middleware(['auth:sanctum', 'verified', 'ability:' . TokenAbilityEnum::REMEMBER_TOKEN->value]);
-
-Route::post('/forget-password', ForgetPasswordController::class)->name('auth.forget-password')->middleware('throttle:6,1');
-Route::post('/resend-otp', ResendOtpController::class)->name('auth.resend-otp')->middleware('throttle:6,1');
-Route::post('/verify-otp', VerifyOtpController::class)->name('auth.verify-otp')->middleware('throttle:6,1');
-Route::post('/reset-password', ResetPasswordController::class)->name('auth.reset-password')->middleware('throttle:6,1');
-Route::post('/resend-verification-code', ResendVerificationCodeController::class)->name('auth.resend-verification-code')->middleware('throttle:6,1');
-Route::post('/verify-email', VerifyEmailController::class)->name('auth.verify-email')->middleware('throttle:6,1');
+Route::post('/refresh-token', RefreshTokenController::class)->name('auth.refresh-token')->middleware(['auth:sanctum', 'ability:' . TokenAbilityEnum::REMEMBER_TOKEN->value]);
 
 Route::post('/support', [\App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
 
-Route::middleware(['auth:sanctum', 'verified', 'ability:' . TokenAbilityEnum::ACCESS_TOKEN->value])->group(function () {
+Route::middleware(['auth:sanctum', 'ability:' . TokenAbilityEnum::ACCESS_TOKEN->value])->group(function () {
   // authentication
   Route::post('/logout', LogoutController::class)->name('auth.logout');
   Route::put('/profile/update', UpdateDataController::class)->name('auth.profile.updata_data');
@@ -105,4 +98,20 @@ Route::middleware(['auth:sanctum', 'verified', 'ability:' . TokenAbilityEnum::AC
   
   Route::post('/chatbot/sessions/{session}/chat', [\App\Http\Controllers\ChatBot\MessageController::class, 'chat'])->name('chatbot.chat');
   Route::post('/chatbot/messages/{message}/reaction', [\App\Http\Controllers\ChatBot\MessageController::class, 'reactToMessage'])->name('chatbot.messages.reaction');
+
+  // AI / HW Communication
+  Route::apiResource('trips', \App\Http\Controllers\TripController::class);
+  Route::post('/trips/{trip}/updates', [\App\Http\Controllers\TripController::class, 'addUpdate'])->name('trips.updates.add');
+
+  Route::prefix('ai-hw')->group(function () {
+    Route::post('/telemetry', [\App\Http\Controllers\AIHWCommunicationController::class, 'telemetry'])->name('ai-hw.telemetry');
+    Route::post('/events', [\App\Http\Controllers\AIHWCommunicationController::class, 'events'])->name('ai-hw.events');
+    Route::post('/ai-logs', [\App\Http\Controllers\AIHWCommunicationController::class, 'aiLogs'])->name('ai-hw.ai-logs');
+    Route::post('/device-status', [\App\Http\Controllers\AIHWCommunicationController::class, 'deviceStatus'])->name('ai-hw.device-status');
+    Route::post('/obstacle-logs', [\App\Http\Controllers\AIHWCommunicationController::class, 'obstacleLogs'])->name('ai-hw.obstacle-logs');
+    Route::post('/health-telemetry', [\App\Http\Controllers\AIHWCommunicationController::class, 'healthTelemetry'])->name('ai-hw.health-telemetry');
+    Route::post('/health-predictions', [\App\Http\Controllers\AIHWCommunicationController::class, 'healthPredictions'])->name('ai-hw.health-predictions');
+    Route::post('/emergency', [\App\Http\Controllers\AIHWCommunicationController::class, 'emergency'])->name('ai-hw.emergency');
+  });
 });
+

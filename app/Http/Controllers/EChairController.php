@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EChair;
 use Illuminate\Http\Request;
 
-class EChairController extends Controller
+class EChairController extends ApiController
 {
     /**
      * Verify an E-Chair serial number and assign it to the user.

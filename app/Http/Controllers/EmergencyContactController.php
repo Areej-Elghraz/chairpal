@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EmergencyContact;
 use Illuminate\Http\Request;
 
-class EmergencyContactController extends Controller
+class EmergencyContactController extends ApiController
 {
     /**
      * Display a listing of the emergency contacts.

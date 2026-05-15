@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Profile;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 
-class DeleteAccountController extends Controller
+class DeleteAccountController extends ApiController
 {
     /**
      * Delete the authenticated user's account.

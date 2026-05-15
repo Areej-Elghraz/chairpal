@@ -66,4 +66,11 @@
       0 => 'Propaganistas\\LaravelPhone\\PhoneServiceProvider',
     ),
   ),
+  'resend/resend-laravel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Resend\\Laravel\\ResendServiceProvider',
+    ),
+  ),
 );
