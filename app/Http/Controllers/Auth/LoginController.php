@@ -21,9 +21,6 @@ class LoginController extends ApiController
             throw ValidationException::withMessages(['email' => __('auth.failed')]);
         }
 
-        if (!$user->email_verified_at) { ///middleware
-            throw ValidationException::withMessages(['email' => __('auth.email_not_verified')]);
-        }
 
         // dd(Auth::attempt($request->only('email', 'password')));
 
